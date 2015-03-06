@@ -1,5 +1,6 @@
 #pragma config(Hubs,  S1, HTMotor,  HTMotor,  none,     none)
 #pragma config(Sensor, S1,     ,               sensorI2CMuxController)
+#pragma config(Sensor, S4,     touchmux1,      sensorHiTechnicTouchMux)
 #pragma config(Motor,  mtr_S1_C1_1,     l1,            tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S1_C1_2,     l2,            tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S1_C2_1,     r1,            tmotorTetrix, openLoop)
@@ -19,17 +20,11 @@
 
 #include "JoystickDriver.c"  //Include file to "handle" the Bluetooth messages.
 
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-//                                    initializeRobot
-//
-// Prior to the start of tele-op mode, you may want to perform some initialization on your robot
-// and the variables within your program.
-//
-// In most cases, you may not have to add any code to this function and it will remain "empty".
-//
-/////////////////////////////////////////////////////////////////////////////////////////////////////
+//Bit map definitions
+#define mux_button1 0x01
+#define mux_button2 0x02
+#define mux_button3 0x04
+#define mux_button4 0x08
 
 void initializeRobot()
 {
@@ -80,6 +75,33 @@ task main()
 
 		int left = 0;
 		int right = 0;
+
+		if(SensorValue(touchmux1) & mux_button1)
+		{
+			left = -100;
+		}
+		else if(SensorValue(touchmux1) & mux_button2)
+		{
+			left = 100;
+		}
+		else
+		{
+			left = 0;
+		}
+
+
+		if(SensorValue(touchmux1) & mux_button3)
+		{
+			right = -100;
+		}
+		else if(SensorValue(touchmux1) & mux_button4)
+		{
+			right = 100;
+		}
+		else
+		{
+			right = 0;
+		}
 
 
 		left = joystick.joy1_y1;
