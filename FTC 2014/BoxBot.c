@@ -87,6 +87,7 @@ task main()
 
 		if(abs(left) < 10) left = 0;
 		if(abs(right) < 10) right = 0;
+        
 
 		motor[l1] = left;
 		motor[l2] = left;
